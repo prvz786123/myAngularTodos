@@ -1,0 +1,74 @@
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+
+
+<div class="container mt-4"> 
+  <div class="row justify-content-center align-items-center mb-3">
+  Completed : {{this.completedTaskCount}} || Incomplete : {{incompleteTaskCount}} || Total : {{totalTaskCount}} 
+  </div>
+  <div class="text-center">
+    <button class="btn btn-outline-primary mb-2" (click)="toggleAddForm()" >{{addFormButtonValue}}</button>
+  </div>
+  <div *ngIf="showAddTaskForm" class="row justify-content-center align-items-center">
+        <form class="text-center">
+          <input type="text" #title
+          class="form-control my-2 text-center" 
+          placeholder="Enter Title"
+          style="width:25em">
+          <textarea #body placeholder="Enter Details" class="form-control text-center"></textarea>
+          
+          <button (click)="addTask(title,body)" class="btn btn-outline-primary my-2">Add</button>
+        <div class="row" class="alert" id="addTaskErrorDiv"></div>  
+        </form>      
+         
+         
+</div>
+
+
+  <div class="row" *ngFor="let todo of todolist; let i=index" >
+    <div class="col-sm-12 col-md-12 col-lg-12 my-1">
+      <div class="card py-2" id="{{i}}">
+      <div class="mb-3 card-body {{todo.completedClass}}" id="mainCard" >        
+        <h5 class="card-title text-center" >{{todo.title}}</h5>        
+        <div class="card-text text-center">{{todo.body}}</div>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-outline-danger btn-sm mx-1"
+        (click)="changeStatus(todo)"
+        ><i id="{{todo._id}}" class="fa fa-check fa-2x"></i></button>
+      <button class="btn btn-outline-danger btn-sm mx-1"
+      (click)="showEditForm(todo)"
+      ><i class="fa fa-pencil fa-2x" aria-hidden="true"></i></button>
+      <button class="btn btn-outline-danger btn-sm mx-1"
+      (click)="deleteTask(todo)"
+      ><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></button>
+      </div>
+      <div class="row justify-content-center text-center align-items-center"
+      *ngIf="todo.showEditFormFlag"
+      >
+       <form action="">
+          <input type="text" #title 
+          placeholder="Enter Title" 
+          class="form-control text-center my-3"
+          name="title"
+          [(ngModel)]="todo.title"
+          >
+
+          <textarea #body placeholder="Enter Details"
+           class="form-control text-center mb-3"
+           name="body"
+          [(ngModel)]="todo.body"
+           >
+           </textarea>
+           
+           <button class="btn btn-sm btn-outline-primary"
+           (click)="saveEdit(todo)"
+           >Save</button>
+
+        </form>
+      </div>
+      </div>            
+    </div>  
+  </div>
+</div>
